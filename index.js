@@ -32,7 +32,7 @@ async function runTest() {
   const eyes = new Eyes(new VisualGridRunner());
 
   //Add your API key
-  eyes.setApiKey('0LBQY6svVsa6nFq94Z100KTLXjFd2M9vE98jNTo6x9hppw110');
+  eyes.setApiKey('APPLITOOLS_API_KEY'); //👈🏼 REPLACE ME!
 
   try {
 
