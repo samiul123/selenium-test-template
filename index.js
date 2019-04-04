@@ -1,92 +1,69 @@
-"use strict";
+'use strict';
 
-//Import chromedriver
-require("chromedriver"); // eslint-disable-line node/no-unpublished-require
+// Import chromedriver
+require('chromedriver');
 
-//Import Selenium Webdriver
-const {
-  Builder,
-  Capabilities,
-  By
-} = require("selenium-webdriver");
+// Import Selenium Webdriver
+const { Builder, Capabilities, By } = require('selenium-webdriver');
 
-//Import Applitools SDK and relevant methods
-const {
-  Eyes,
-  VisualGridRunner,
-  Target,
-  Configuration,
-  BrowserType,
-  DeviceName,
-  ScreenOrientation
-} = require("@applitools/eyes-selenium");
+// Import Applitools SDK and relevant methods
+const { Eyes, Target, VisualGridRunner, Configuration, BrowserType, DeviceName, ScreenOrientation } = require('@applitools/eyes-selenium');
 
-/**
- * This initializes eyes and with all the Visual Grid configurations
- */
-function initializeEyes() {
+(async () => {
+  // Open a Chrome browser.
+  const driver = new Builder()
+    .withCapabilities(Capabilities.chrome())
+    .build();
+
   // Initialize the eyes SDK and set your private API key.
-  const eyes = new Eyes(new VisualGridRunner());
+  const eyes = new Eyes(new VisualGridRunner()); // Add a runner if you want to use VisualGrid service
 
-  //Add your API key
-  eyes.setApiKey("zip9Lu5iRetWH4WWsFk9gq90TYuPluhQ0v6Kf104fN4F8110"); //👈🏼 REPLACE ME!
-
-  //Set Selenium configurations
+  // How, you have an ability to use new Configuration class to setup everything
+  // It has all configuration methods from Eyes class and more (to setup emulation devices)
   const config = new Configuration();
 
-  //Set concurrent sesions (upto 100, depending on your license)
-  config.setConcurrentSessions(4)
+  // Add your API key
+  config.setApiKey('{APPLITOOLS_API_KEY}'); // 👈🏼 REPLACE ME!
 
-  //Set the app name
-  config.setAppName("Demo app");
-  config.setTestName("JS Smoke test");
+  // Set the App name and the Test name
+  config.setAppName('Demo app');
+  config.setTestName('JS Smoke test');
 
-  //Add Chrome browser with two different viewports
+  // Set concurrent sessions (upto 100, depending on your license)
+  config.setConcurrentSessions(4);
+
+  // Add Chrome browser with two different viewports
   config.addBrowser(800, 600, BrowserType.CHROME);
   config.addBrowser(700, 500, BrowserType.CHROME);
 
-  //Add Firefox browser with two different viewports
+  // Add Firefox browser with two different viewports
   config.addBrowser(1200, 800, BrowserType.FIREFOX);
   config.addBrowser(1600, 1200, BrowserType.FIREFOX);
 
-  //Add iPhone 4 with Portrait mode
+  // Add iPhone 4 with Portrait mode
   config.addDeviceEmulation(DeviceName.iPhone_4, ScreenOrientation.PORTRAIT);
 
-  //Set any Visual Grid config
+  // Set the config to eyes
   eyes.setConfiguration(config);
 
-  return eyes;
-}
-
-async function runTest() {
-  // Open a Chrome browser.
-  const driver = new Builder().withCapabilities(Capabilities.chrome()).build();
-
-  //initialize Eyes with Visual Grid configuration
-  const eyes = initializeEyes();
-
   try {
-
-    // Navigate the browser to the "hello world!" web-site.
-    await driver.get("https://demo.applitools.com");
-
-    // Start the test
+    // Start the test. All configuration you have set above
     await eyes.open(driver);
 
-    //⭐️To see visual bugs, change the above URL to:
-    //  https://demo.applitools.com/index_v2.html and run the test again
+    // Navigate the browser to the "hello world!" web-site.
+    await driver.get('https://demo.applitools.com');
+
+    // ⭐️To see visual bugs, change the above URL to:
+    // https://demo.applitools.com/index_v2.html and run the test again
 
     // Visual checkpoint #1.
-    await eyes.check("Login Page", Target.window());
+    await eyes.check('Login Page', Target.window().fully());
 
     // Click the "Click me!" button.
-    await driver.findElement(By.id("log-in")).click();
+    await driver.findElement(By.id('log-in')).click();
 
     // Visual checkpoint #2.
-    await eyes.check("Click!", Target.window());
-
-    // End the test.
-    // const results = await eyes.close(); // will return only first TestResults, but as we have two browsers, we need more results
+    await eyes.check('Click!', Target.window().fully());
 
     console.log(
       `Please wait, we are now..
@@ -94,18 +71,19 @@ async function runTest() {
       2. Rendering them in different browsers, emulators
       3. Analyzing them using our A.I. 
 
-      ...you should see the result within 15 - 60 seconds depending on your internet speed, # combinations and how heavy your app is.
-    `
+      ...you should see the result within 15 - 60 seconds depending on your internet speed, # combinations and how heavy your app is.`
     );
-    //This will wait for all the test result to return
+
+    // End the test.
+    // const results = await eyes.close(); // will return only first TestResults, but as we have multiple browsers, we need more results
+
+    // This will return all results as an array
     const results = await eyes.getRunner().getAllResults();
 
-    console.log(results); // eslint-disable-line
+    console.log(results);
   } catch (e) {
-    console.log(e);
-    
-    // Close the browser.
-    await driver.quit();
+    // When you use VisualGrid, we don't throw an error on validation mismatch
+    console.error(e);
   } finally {
     // Close the browser.
     await driver.quit();
@@ -113,7 +91,4 @@ async function runTest() {
     // If the test was aborted before eyes.close was called ends the test as aborted.
     await eyes.abortIfNotClosed();
   }
-}
-
-//Run
-runTest();
+})();
