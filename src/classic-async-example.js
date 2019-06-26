@@ -7,7 +7,7 @@ require('chromedriver');
 const { Builder, Capabilities } = require('selenium-webdriver');
 
 // Import Applitools SDK and relevant methods
-const { Eyes, VisualGridRunner, Target, ConsoleLogHandler, Configuration, BrowserType, DeviceName, ScreenOrientation, BatchInfo } = require('@applitools/eyes-selenium'); // should be replaced to '@applitools/eyes-selenium'
+const { Eyes, ClassicRunner, Target, ConsoleLogHandler, Configuration, BatchInfo } = require('@applitools/eyes-selenium'); // should be replaced to '@applitools/eyes-selenium'
 
 function initializeEyes(runner) {
   // Create Eyes object with the runner, meaning it'll be a Visual Grid eyes.
@@ -33,21 +33,10 @@ function initializeEyes(runner) {
   configuration.setAppName('Eyes Examples');
 
   // Set a test name
-  configuration.setTestName('My first Javascript test!');
+  configuration.setTestName('My first Javascript ClassicRunner test!');
 
   // Set a batch name so all the different browser and mobile combinations are part of the same batch
   configuration.setBatch(new BatchInfo("VIP Browser combo batch"));
-
-  // Add Chrome browsers with different Viewports
-  configuration.addBrowser(800, 600, BrowserType.CHROME);
-  configuration.addBrowser(700, 500, BrowserType.CHROME);
-
-  // Add Firefox browser with different Viewports
-  configuration.addBrowser(1200, 800, BrowserType.FIREFOX);
-  configuration.addBrowser(1600, 1200, BrowserType.FIREFOX);
-
-  // Add iPhone 4 device emulation
-  configuration.addDeviceEmulation(DeviceName.iPhone_4, ScreenOrientation.PORTRAIT);
 
   // Set the configuration object to eyes
   eyes.setConfiguration(configuration);
@@ -61,6 +50,7 @@ async function runTest(url, runner) {
   // Create a new Webdriver
   const webDriver = new Builder()
       .withCapabilities(Capabilities.chrome())
+      // .setChromeOptions(new ChromeOptions().headless())
       .build();
 
   try {
@@ -85,7 +75,7 @@ async function runTest(url, runner) {
 
 (async () => {
   // Create a runner with concurrency of 10
-  const runner = new VisualGridRunner(10);
+  const runner = new ClassicRunner();
 
   try {
     // Define links to process
