@@ -9,8 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@applitools/eyes-selenium": "^4.20.4",
-    "chromedriver": "^75.0.0",
+    "@applitools/eyes-selenium": "^4.23.5",
+    "chromedriver": "^75.1.0",
     "selenium-webdriver": "^4.0.0-alpha.4"
   }
 }
