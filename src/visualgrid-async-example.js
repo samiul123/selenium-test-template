@@ -20,7 +20,7 @@ function initializeEyes(runner) {
   const configuration = new Configuration();
 
   // Set API key
-  // configuration.setApiKey('Your API Key');
+  configuration.setApiKey(process.env.APPLITOOLS_API_KEY);
 
   // If dedicated or on-prem cloud, uncomment and enter the cloud url
   // Default: https://eyes.applitools.com

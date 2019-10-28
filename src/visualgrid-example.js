@@ -23,7 +23,7 @@ const { Eyes, Target, VisualGridRunner, Configuration, BrowserType, DeviceName, 
   const config = new Configuration();
 
   // Add your API key
-  config.setApiKey('{APPLITOOLS_API_KEY}'); // 👈🏼 REPLACE ME!
+  config.setApiKey(process.env.APPLITOOLS_API_KEY); // 👈🏼 REPLACE ME!
 
   // Set the App name and the Test name
   config.setAppName('Demo app - VisualGridRunner');
