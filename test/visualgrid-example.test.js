@@ -17,7 +17,7 @@ describe('DemoApp - Ultrafast Grid', function () {
     let conf = new Configuration()
 
     // You can get your api key from the Applitools dashboard
-    conf.setApiKey('X88oeVgnovhhWwGWqUslkA1048l7Dt7FFgrsEw9NdHlkQ110')
+    conf.setApiKey('APPLITOOLS_API_KEY')
 
     // create a new batch info instance and set it to the configuration
     conf.setBatch(new BatchInfo("Ultrafast Batch"));
