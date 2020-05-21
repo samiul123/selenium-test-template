@@ -45,7 +45,7 @@ describe('DemoApp - Ultrafast Grid', function () {
 
   });
 
-  it('Smoke Test', async () => {
+  it('ultraFastTest', async () => {
     // Call Open on eyes to initialize a test session
     await eyes.open(driver, 'Demo App javascript4', 'Ultrafast grid demo', new RectangleSize(800, 600));
 
