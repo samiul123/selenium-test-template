@@ -47,7 +47,7 @@ describe('DemoApp - Ultrafast Grid', function () {
 
   it('ultraFastTest', async () => {
     // Call Open on eyes to initialize a test session
-    await eyes.open(driver, 'Demo App javascript4', 'Ultrafast grid demo', new RectangleSize(800, 600));
+    await eyes.open(driver, 'Demo App', 'Ultrafast grid demo', new RectangleSize(800, 600));
 
     // Navigate the browser to the "ACME" demo app.
     // ⭐️ Note to see visual bugs, run the test using the above URL for the 1st run.
