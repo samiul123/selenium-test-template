@@ -23,7 +23,7 @@ describe('DemoApp - Ultrafast Grid', function () {
     let conf = new Configuration()
 
     // You can get your api key from the Applitools dashboard
-    conf.setApiKey('97ELuwdIiAilbeumIilysV8yY24tygCeRFFTYEBO7EfE110')
+    conf.setApiKey('APPLITOOLS_API_KEY')
 
     // create a new batch info instance and set it to the configuration
     conf.setBatch(new BatchInfo("Ultrafast Batch"));
@@ -47,7 +47,7 @@ describe('DemoApp - Ultrafast Grid', function () {
 
   it('Smoke Test', async () => {
     // Call Open on eyes to initialize a test session
-    await eyes.open(driver, 'Demo App', 'Ultrafast grid demo', new RectangleSize(800, 600));
+    await eyes.open(driver, 'Demo App javascript4', 'Ultrafast grid demo', new RectangleSize(800, 600));
 
     // Navigate the browser to the "ACME" demo app.
     // ⭐️ Note to see visual bugs, run the test using the above URL for the 1st run.
