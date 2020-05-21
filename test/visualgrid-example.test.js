@@ -6,18 +6,24 @@ const { Eyes, VisualGridRunner, Target, RectangleSize, Configuration, BatchInfo,
 describe('DemoApp - Ultrafast Grid', function () {
   let runner, eyes, driver;
 
-  beforeEach(async () => {
-    // Initialize the Runner for your test.
+  before(async () => {
+
+    // Create a new chrome web driver
+    driver = await new Builder()
+        .forBrowser('chrome')
+        .build();
+
+    // Create a runner with concurrency of 1
     runner = new VisualGridRunner(1);
 
-    // Initialize the eyes SDK (IMPORTANT: make sure your API key is set in the APPLITOOLS_API_KEY env variable).
+    // Create Eyes object with the runner, meaning it'll be a Visual Grid eyes.
     eyes = new Eyes(runner);
 
     // Initialize the eyes configuration.
     let conf = new Configuration()
 
     // You can get your api key from the Applitools dashboard
-    conf.setApiKey('APPLITOOLS_API_KEY')
+    conf.setApiKey('97ELuwdIiAilbeumIilysV8yY24tygCeRFFTYEBO7EfE110')
 
     // create a new batch info instance and set it to the configuration
     conf.setBatch(new BatchInfo("Ultrafast Batch"));
@@ -36,44 +42,42 @@ describe('DemoApp - Ultrafast Grid', function () {
     // set the configuration to eyes
     eyes.setConfiguration(conf)
 
-    // Use Chrome browser
-    driver = await new Builder()
-        .forBrowser('chrome')
-        // .setChromeOptions(new ChromeOptions().headless())
-        .build();
+
   });
 
   it('Smoke Test', async () => {
-    // Start the test by setting AUT's name, test name and viewport size (width X height)
+    // Call Open on eyes to initialize a test session
     await eyes.open(driver, 'Demo App', 'Ultrafast grid demo', new RectangleSize(800, 600));
 
     // Navigate the browser to the "ACME" demo app.
+    // ⭐️ Note to see visual bugs, run the test using the above URL for the 1st run.
+    // but then change the above URL to https://demo.applitools.com/index_v2.html
+    // (for the 2nd run)
     await driver.get("https://demo.applitools.com");
 
-    // To see visual bugs after the first run, use the commented line below instead.
-    // await driver.get("https://demo.applitools.com/index_v2.html");
-
-    // Visual checkpoint #1 - Check the login page.
+    // check the login page with fluent api, see more info here
+    // https://applitools.com/docs/topics/sdk/the-eyes-sdk-check-fluent-api.html
     await eyes.check("Login Window", Target.window().fully());
 
     // This will create a test with two test steps.
     await driver.findElement(By.id("log-in")).click();
 
-    // Visual checkpoint #2 - Check the app page.
+    // Check the app page
     await eyes.check("App Window", Target.window().fully());
 
-    // End the test.
+    // Call Close on eyes to let the server know it should display the results
     await eyes.closeAsync();
   });
 
-  afterEach(async () => {
+  after(async () => {
     // Close the browser.
     await driver.quit();
 
     // If the test was aborted before eyes.close was called, ends the test as aborted.
     await eyes.abortIfNotClosed();
 
-    // Wait and collect all test results
+    // we pass false to this method to suppress the exception that is thrown if we
+    // find visual differences
     const allTestResults = await runner.getAllTestResults();
     console.log(allTestResults);
   });
