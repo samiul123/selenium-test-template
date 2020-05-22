@@ -23,7 +23,7 @@ describe('DemoApp - Ultrafast Grid', function () {
     let conf = new Configuration()
 
     // You can get your api key from the Applitools dashboard
-    conf.setApiKey('APPLITOOLS_API_KEY')
+    conf.setApiKey('ioRRQOF5YBYU6NIwbe3tuDFCX8H109mmenarZo8arSlbA110')
 
     // create a new batch info instance and set it to the configuration
     conf.setBatch(new BatchInfo("Ultrafast Batch"));
@@ -74,7 +74,7 @@ describe('DemoApp - Ultrafast Grid', function () {
     await driver.quit();
 
     // If the test was aborted before eyes.close was called, ends the test as aborted.
-    await eyes.abortIfNotClosed();
+    await eyes.abortAsync();
 
     // we pass false to this method to suppress the exception that is thrown if we
     // find visual differences
