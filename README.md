@@ -1,3 +1,5 @@
+#### This is for Selenium 4 users.
+
 # Pre-requisites:
 
 1. Install Node.js from [here](https://nodejs.org/en/)
