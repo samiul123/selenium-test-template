@@ -1,7 +1,7 @@
 'use strict';
 
 const { Builder, By } = require('selenium-webdriver');
-const { Eyes, VisualGridRunner, Target, RectangleSize, Configuration, BatchInfo, BrowserType, DeviceName, ScreenOrientation} = require('@applitools/eyes-selenium');
+const { Eyes, VisualGridRunner, RunnerOptions, Target, RectangleSize, Configuration, BatchInfo, BrowserType, DeviceName, ScreenOrientation} = require('@applitools/eyes-selenium');
 
 describe('DemoApp - Ultrafast Grid', function () {
   let runner, eyes, driver;
@@ -14,7 +14,8 @@ describe('DemoApp - Ultrafast Grid', function () {
         .build();
 
     // Create a runner with concurrency of 1
-    runner = new VisualGridRunner(1);
+    const runnerOptions = new RunnerOptions().testConcurrency(1);
+    runner = new VisualGridRunner(runnerOptions);
 
     // Create Eyes object with the runner, meaning it'll be a Visual Grid eyes.
     eyes = new Eyes(runner);
