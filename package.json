@@ -13,5 +13,8 @@
     "chai": "^4.2.0",
     "chromedriver": "latest",
     "mocha": "latest"
+  },
+  "devDependencies": {
+    "selenium-webdriver": "^3.6.0"
   }
 }
