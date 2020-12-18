@@ -3,14 +3,15 @@
   "version": "1.1.0",
   "description": "",
   "scripts": {
-    "test": "mocha --no-timeouts \"test/*.test.js\""
+    "test": "mocha --recursive"
   },
   "author": "",
+  "type": "module",
   "license": "ISC",
   "dependencies": {
-    "mocha": "latest",
     "@applitools/eyes-selenium": "latest",
+    "chai": "^4.2.0",
     "chromedriver": "latest",
-    "selenium-webdriver": "latest"
+    "mocha": "latest"
   }
 }
